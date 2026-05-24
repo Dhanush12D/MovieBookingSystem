@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.sql.*;
 
-public class SeatBookingPage extends JFrame {
+public class seatBookingPage_backup extends JFrame {
     private JButton[][] seats; // Buttons representing seats
     private JLabel selectedSeatsLabel;
     private JButton proceedButton;
@@ -12,7 +12,7 @@ public class SeatBookingPage extends JFrame {
     private int maxSeats = 5; // Maximum number of seats a user can book
     private String movieTitle;
 
-    public SeatBookingPage(String username, String movieTitle) {
+    public seatBookingPage_backup(String username, String movieTitle) {
         this.movieTitle = movieTitle;
 
         setTitle("Seat Booking - " + movieTitle);

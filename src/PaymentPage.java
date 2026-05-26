@@ -30,131 +30,120 @@ public class PaymentPage extends JFrame {
         bg.setLayout(new GridBagLayout());
 
         JPanel card = createGlassCard();
-        card.setLayout(new GridBagLayout());
+        card.setPreferredSize(new Dimension(500, 560));
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        // Replace GridBagLayout-based form alignment with a simple vertical stack.
+        JPanel content = new JPanel();
+        content.setOpaque(false);
+        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+        content.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel title = new JLabel("Complete Your Payment");
         title.setForeground(new Color(245, 245, 255));
         title.setFont(new Font("SansSerif", Font.BOLD, 26));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        card.add(title, gbc);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(title);
+        content.add(Box.createVerticalStrut(14));
 
-        JLabel cardIcon = new JLabel("[CARD]");
+        // ---------------- CARD NUMBER ----------------
+        JLabel numberLabel = new JLabel("CARD NUMBER");
+        numberLabel.setForeground(Color.WHITE);
+        numberLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        numberLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        numberLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(numberLabel);
+        content.add(Box.createVerticalStrut(6));
 
-        cardIcon.setFont(new Font("SansSerif", Font.PLAIN, 22));
-        cardIcon.setForeground(new Color(190, 210, 255));
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        gbc.gridx = 0;
-        card.add(cardIcon, gbc);
-
-        JLabel numberLabel = new JLabel("Card Number");
-        numberLabel.setForeground(new Color(210, 210, 230));
-        numberLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        card.add(numberLabel, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
         cardNumberField = createStyledField();
-        card.add(cardNumberField, gbc);
+        cardNumberField.setMaximumSize(new Dimension(Integer.MAX_VALUE, cardNumberField.getPreferredSize().height));
+        cardNumberField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(cardNumberField);
+        content.add(Box.createVerticalStrut(10));
 
-        JLabel expiryIcon = new JLabel("[EXP]");
+        // ---------------- EXPIRY ----------------
+        JLabel expiryLabel = new JLabel("EXPIRY DATE (MM/YY)");
+        expiryLabel.setForeground(Color.WHITE);
+        expiryLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        expiryLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        expiryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(expiryLabel);
+        content.add(Box.createVerticalStrut(6));
 
-        expiryIcon.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        expiryIcon.setForeground(new Color(190, 210, 255));
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 1;
-        card.add(expiryIcon, gbc);
-
-        JLabel expiryLabel = new JLabel("Expiry Date (MM/YY)");
-        expiryLabel.setForeground(new Color(210, 210, 230));
-        expiryLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        gbc.gridx = 1;
-        gbc.gridy = 3;
-        card.add(expiryLabel, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
         expiryDateField = createStyledField();
-        card.add(expiryDateField, gbc);
+        expiryDateField.setMaximumSize(new Dimension(Integer.MAX_VALUE, expiryDateField.getPreferredSize().height));
+        expiryDateField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(expiryDateField);
+        content.add(Box.createVerticalStrut(10));
 
-        JLabel cvvIcon = new JLabel("[CVV]");
-
-        cvvIcon.setFont(new Font("SansSerif", Font.PLAIN, 20));
-        cvvIcon.setForeground(new Color(190, 210, 255));
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.gridwidth = 1;
-        card.add(cvvIcon, gbc);
-
+        // ---------------- CVV ----------------
         JLabel cvvLabel = new JLabel("CVV");
-        cvvLabel.setForeground(new Color(210, 210, 230));
-        cvvLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        gbc.gridx = 1;
-        gbc.gridy = 5;
-        card.add(cvvLabel, gbc);
+        cvvLabel.setForeground(Color.WHITE);
+        cvvLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        cvvLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        cvvLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(cvvLabel);
+        content.add(Box.createVerticalStrut(6));
 
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.gridwidth = 2;
         cvvField = createStyledField();
-        card.add(cvvField, gbc);
+        cvvField.setMaximumSize(new Dimension(Integer.MAX_VALUE, cvvField.getPreferredSize().height));
+        cvvField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(cvvField);
+        content.add(Box.createVerticalStrut(12));
 
-        gbc.gridy = 7;
-        gbc.insets = new Insets(18, 10, 10, 10);
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.NONE;
-
-        payButton = new JButton("Pay");
+        // ---------------- PAY BUTTON ----------------
+        payButton = new JButton("Pay Now");
         payButton.setFont(new Font("SansSerif", Font.BOLD, 16));
         payButton.setPreferredSize(new Dimension(220, 46));
         payButton.setFocusPainted(false);
-        payButton.setForeground(new Color(245, 245, 255));
-        payButton.setBackground(new Color(60, 120, 255));
+        payButton.setForeground(Color.WHITE);
+        payButton.setBackground(new Color(180, 25, 35));
         payButton.setOpaque(true);
         payButton.setBorderPainted(false);
         payButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                payButton.setBackground(new Color(78, 140, 255));
+                payButton.setBackground(new Color(220, 40, 50));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                payButton.setBackground(new Color(60, 120, 255));
+                payButton.setBackground(new Color(180, 25, 35));
             }
         });
-        payButton.addActionListener(e -> processPayment(username));
-        card.add(payButton, gbc);
+        payButton.addActionListener(
+                e -> processPayment(username)
+        );
+        payButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(payButton);
+        content.add(Box.createVerticalStrut(18));
 
+        // ---------------- SUMMARY ----------------
         int pricePerSeat = 150;
         int totalAmount = totalSeats * pricePerSeat;
 
-       JLabel summary = new JLabel(
-        "<html>" +
-        "Movie: " + movieTitle + "<br>" +
-        "Seats Selected: " + totalSeats + "<br>" +
-        "Price Per Seat: Rs." + pricePerSeat + "<br>" +
-        "Total Amount: Rs." + totalAmount +
-        "</html>"
-);
-        summary.setForeground(new Color(175, 185, 210));
-        summary.setFont(new Font("SansSerif", Font.PLAIN, 12));
-        gbc.gridy = 8;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        card.add(summary, gbc);
+        JLabel summary = new JLabel(
+                "<html><center>" +
+                        "Movie: " + movieTitle + "<br>" +
+                        "Seats Selected: " + totalSeats + "<br>" +
+                        "Price Per Seat: Rs. " + pricePerSeat + "<br>" +
+                        "Total Amount: Rs. " + totalAmount +
+                        "</center></html>"
+        );
 
+        summary.setForeground(Color.WHITE);
+        summary.setFont(new Font("SansSerif", Font.BOLD, 14));
+        summary.setHorizontalAlignment(SwingConstants.CENTER);
+        summary.setVerticalAlignment(SwingConstants.CENTER);
+        summary.setAlignmentX(Component.CENTER_ALIGNMENT);
+        content.add(summary);
 
+        // Vertically center the whole form stack inside the glass card.
+        card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.add(Box.createVerticalGlue());
+        card.add(content);
+        card.add(Box.createVerticalGlue());
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
         bg.add(card);
         setContentPane(bg);
         setVisible(true);
@@ -162,7 +151,8 @@ public class PaymentPage extends JFrame {
 
     private JTextField createStyledField() {
         JTextField f = new JTextField();
-        f.setOpaque(false);
+        f.setOpaque(true);
+        f.setBackground(new Color(20, 20, 30));
         f.setBorder(BorderFactory.createEmptyBorder(10, 14, 10, 14));
         f.setForeground(new Color(245, 245, 255));
         f.setCaretColor(new Color(150, 220, 255));
@@ -179,19 +169,26 @@ public class PaymentPage extends JFrame {
 
             @Override
             public void focusLost(FocusEvent e) {
-                f.setBorder(BorderFactory.createEmptyBorder(10, 14, 10, 14));
+                f.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(
+                                new Color(255, 60, 80),
+                                1,
+                                true
+                        ),
+                        BorderFactory.createEmptyBorder(10, 14, 10, 14)
+                ));
             }
         });
 
-        f.setPreferredSize(new Dimension(520, 44));
+        f.setPreferredSize(new Dimension(420, 42));
         JPanel wrapper = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(new Color(0, 0, 0, 120));
+                g2.setColor(new Color(20, 20, 30, 180));
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 16, 16);
-                g2.setColor(new Color(120, 160, 255, 70));
+                g2.setColor(new Color(255, 40, 60, 90));
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 16, 16);
                 g2.dispose();
                 super.paintComponent(g);
@@ -217,9 +214,9 @@ public class PaymentPage extends JFrame {
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(new Color(0, 0, 0, 70));
                 g2.fillRoundRect(0, 14, getWidth(), getHeight(), 22, 22);
-                g2.setColor(new Color(18, 18, 28, 200));
+                g2.setColor(new Color(20, 20, 30, 180));
                 g2.fillRoundRect(0, 0, getWidth(), getHeight(), 22, 22);
-                g2.setColor(new Color(120, 160, 255, 70));
+                g2.setColor(new Color(255, 40, 60, 90));
                 g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 22, 22);
                 g2.dispose();
                 super.paintComponent(g);
@@ -290,26 +287,61 @@ public class PaymentPage extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
+
+            super.paintComponent(g);
+
             Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+            g2.setRenderingHint(
+                    RenderingHints.KEY_INTERPOLATION,
+                    RenderingHints.VALUE_INTERPOLATION_BILINEAR
+            );
+
+            g2.setRenderingHint(
+                    RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON
+            );
 
             if (background != null) {
-                g2.drawImage(background, 0, 0, getWidth(), getHeight(), null);
+
+                g2.drawImage(
+                        background,
+                        0,
+                        0,
+                        getWidth(),
+                        getHeight(),
+                        null
+                );
+
             } else {
+
                 g2.setColor(new Color(10, 10, 18));
+
                 g2.fillRect(0, 0, getWidth(), getHeight());
             }
 
-            g2.setColor(new Color(0, 0, 0, 120));
+            // dark cinematic overlay
+            g2.setColor(new Color(0, 0, 0, 150));
+
             g2.fillRect(0, 0, getWidth(), getHeight());
 
-            GradientPaint gp = new GradientPaint(0, 0, new Color(20, 24, 44, 60), 0, getHeight(), new Color(0, 0, 0, 190));
-            g2.setPaint(gp);
+            // red cinematic glow
+            GradientPaint redGlow = new GradientPaint(
+                    0,
+                    0,
+                    new Color(120, 0, 20, 120),
+
+                    getWidth(),
+                    getHeight(),
+
+                    new Color(0, 0, 0, 0)
+            );
+
+            g2.setPaint(redGlow);
+
             g2.fillRect(0, 0, getWidth(), getHeight());
 
             g2.dispose();
-            super.paintComponent(g);
         }
     }
 }

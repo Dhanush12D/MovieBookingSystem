@@ -56,19 +56,22 @@ public class SeatBookingPage extends JFrame {
         JPanel legend = new JPanel(new FlowLayout(FlowLayout.CENTER, 18, 0));
         legend.setOpaque(false);
         JLabel l1 = new JLabel("Available");
-        l1.setForeground(new Color(200, 255, 210));
+        l1.setForeground(new Color(0, 255, 140));
+        l1.setFont(new Font("SansSerif", Font.BOLD, 13));
         JLabel b1 = new JLabel("  ");
         b1.setOpaque(true);
         b1.setBackground(new Color(0, 180, 80));
         b1.setPreferredSize(new Dimension(22, 14));
         JLabel l2 = new JLabel("Selected");
-        l2.setForeground(new Color(255, 200, 210));
+        l2.setForeground(new Color(255, 80, 80));
+        l2.setFont(new Font("SansSerif", Font.BOLD, 13));
         JLabel b2 = new JLabel("  ");
         b2.setOpaque(true);
         b2.setBackground(Color.RED);
         b2.setPreferredSize(new Dimension(22, 14));
         JLabel l3 = new JLabel("Occupied");
-        l3.setForeground(new Color(190, 190, 200));
+       l3.setForeground(Color.WHITE);
+       l3.setFont(new Font("SansSerif", Font.BOLD, 13));
         JLabel b3 = new JLabel("  ");
         b3.setOpaque(true);
         b3.setBackground(new Color(90, 90, 95));
@@ -88,19 +91,40 @@ public class SeatBookingPage extends JFrame {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 10; j++) {
                 int seatNum = i * 10 + j + 1;
-                seats[i][j] = new JButton(String.valueOf(seatNum));
-                seats[i][j].setBackground(Color.GREEN); // Available seats are green
+              seats[i][j] = new JButton(String.valueOf(seatNum));
+
+                seats[i][j].setBackground(new Color(0, 220, 120));
+
                 seats[i][j].setForeground(Color.BLACK);
+
                 seats[i][j].setFocusPainted(false);
-                seats[i][j].setBorder(BorderFactory.createLineBorder(new Color(0, 180, 80, 160), 1, true));
+
                 seats[i][j].setOpaque(true);
+
+                seats[i][j].setMargin(new Insets(0,0,0,0));
+
+                seats[i][j].setFont(
+                     new Font("SansSerif", Font.BOLD, 12)
+            );
+
+        seats[i][j].setCursor(
+        Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+);
+
+seats[i][j].setBorder(
+        BorderFactory.createLineBorder(
+                new Color(255,255,255,40),
+                1,
+                true
+        )
+);
 
                 seats[i][j].addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         JButton seatButton = (JButton) e.getSource();
-                        if (seatButton.getBackground() == Color.GREEN) {
+                       if (seatButton.getBackground().equals(new Color(0, 220, 120))) {
                             if (selectedSeatsCount < maxSeats) {
-                                seatButton.setBackground(Color.RED); // Selected seats turn red
+                               seatButton.setBackground(new Color(220, 40, 40));// Selected seats turn red
                                 seatButton.setForeground(Color.WHITE);
                                 seatButton.setBorder(BorderFactory.createLineBorder(new Color(255, 60, 120, 200), 2, true));
                                 selectedSeatsCount++;
@@ -108,8 +132,8 @@ public class SeatBookingPage extends JFrame {
                             } else {
                                 JOptionPane.showMessageDialog(null, "You can only book up to " + maxSeats + " seats.");
                             }
-                        } else if (seatButton.getBackground() == Color.RED) {
-                            seatButton.setBackground(Color.GREEN); // Deselect seat
+                        }else if (seatButton.getBackground().equals(new Color(220, 40, 40))){
+                           seatButton.setBackground(new Color(0, 220, 120));// Deselect seat
                             seatButton.setForeground(Color.BLACK);
                             seatButton.setBorder(BorderFactory.createLineBorder(new Color(0, 180, 80, 160), 1, true));
                             selectedSeatsCount--;
@@ -130,24 +154,49 @@ public class SeatBookingPage extends JFrame {
         proceedButton.setFont(new Font("SansSerif", Font.BOLD, 15));
         proceedButton.setFocusPainted(false);
         proceedButton.setForeground(new Color(245, 245, 255));
-        proceedButton.setBackground(new Color(60, 120, 255));
+        proceedButton.setBackground(new Color(180, 25, 35));
         proceedButton.setOpaque(true);
         proceedButton.setBorderPainted(false);
         proceedButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                proceedButton.setBackground(new Color(78, 140, 255));
+                proceedButton.setBackground(new Color(220, 40, 50));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                proceedButton.setBackground(new Color(60, 120, 255));
+                proceedButton.setBackground(new Color(180, 25, 35));
             }
         });
         proceedButton.addActionListener(e -> proceedToPayment(username));
 
-        glass.add(legend, BorderLayout.NORTH);
-        glass.add(seatPanel, BorderLayout.CENTER);
+     JLabel screen = new JLabel("SCREEN", SwingConstants.CENTER);
+
+screen.setForeground(Color.BLACK);
+
+screen.setFont(
+        new Font("SansSerif", Font.BOLD, 14)
+);
+
+screen.setBorder(
+        BorderFactory.createEmptyBorder(5,0,5,0)
+);
+
+screen.setOpaque(true);
+
+screen.setPreferredSize(new Dimension(120, 28));
+
+JPanel topSection = new JPanel(new BorderLayout());
+
+topSection.setOpaque(false);
+
+topSection.add(legend, BorderLayout.NORTH);
+
+topSection.add(screen, BorderLayout.SOUTH);
+
+glass.add(topSection, BorderLayout.NORTH);
+
+glass.add(seatPanel, BorderLayout.CENTER);
 
         JPanel bottom = new JPanel(new BorderLayout());
         bottom.setOpaque(false);
@@ -183,7 +232,7 @@ public class SeatBookingPage extends JFrame {
                         int seatNumber = Integer.parseInt(seat.trim());
                         int row = (seatNumber - 1) / 10;
                         int col = (seatNumber - 1) % 10;
-                        seats[row][col].setBackground(Color.GRAY); // Occupied seats are gray
+                        seats[row][col].setBackground(new Color(70,70,70)); // Occupied seats are gray
                         seats[row][col].setForeground(new Color(230, 230, 235));
                         seats[row][col].setBorder(BorderFactory.createLineBorder(new Color(120, 120, 128, 180), 1, true));
                         seats[row][col].setEnabled(false); // Disable button for occupied seats
@@ -232,29 +281,64 @@ public class SeatBookingPage extends JFrame {
             this.background = background;
         }
 
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g.create();
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+       @Override
+protected void paintComponent(Graphics g) {
 
-            if (background != null) {
-                g2.drawImage(background, 0, 0, getWidth(), getHeight(), null);
-            } else {
-                g2.setColor(new Color(10, 10, 18));
-                g2.fillRect(0, 0, getWidth(), getHeight());
-            }
+    super.paintComponent(g);
 
-            g2.setColor(new Color(0, 0, 0, 120));
-            g2.fillRect(0, 0, getWidth(), getHeight());
+    Graphics2D g2 = (Graphics2D) g.create();
 
-            GradientPaint gp = new GradientPaint(0, 0, new Color(20, 24, 44, 50), 0, getHeight(), new Color(0, 0, 0, 170));
-            g2.setPaint(gp);
-            g2.fillRect(0, 0, getWidth(), getHeight());
+    g2.setRenderingHint(
+            RenderingHints.KEY_INTERPOLATION,
+            RenderingHints.VALUE_INTERPOLATION_BILINEAR
+    );
 
-            g2.dispose();
-            super.paintComponent(g);
-        }
+    g2.setRenderingHint(
+            RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON
+    );
+
+    if (background != null) {
+
+        g2.drawImage(
+                background,
+                0,
+                0,
+                getWidth(),
+                getHeight(),
+                null
+        );
+
+    } else {
+
+        g2.setColor(new Color(10, 10, 18));
+
+        g2.fillRect(0, 0, getWidth(), getHeight());
+    }
+
+    // Dark overlay
+    g2.setColor(new Color(0, 0, 0, 110));
+
+    g2.fillRect(0, 0, getWidth(), getHeight());
+
+    // Red cinematic glow
+    GradientPaint redGlow = new GradientPaint(
+            0,
+            0,
+            new Color(120, 0, 20, 90),
+
+            getWidth(),
+            getHeight(),
+
+            new Color(0, 0, 0, 0)
+    );
+
+    g2.setPaint(redGlow);
+
+    g2.fillRect(0, 0, getWidth(), getHeight());
+
+    g2.dispose();
+}
     }
 }
 
